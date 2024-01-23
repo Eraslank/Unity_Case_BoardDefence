@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class Enemy : MonoBehaviour
     public float currentHealth = 0;
     public float blocksPerSec = 1f;
     [SerializeField] RectTransform rT;
+    [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] Image damageBar;
     [SerializeField] CanvasGroup canvasGroup;
 
@@ -21,7 +23,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         GameManager.Instance.RegisterEnemy(this);
-        currentHealth = health;
+        healthText.text = (currentHealth = health).ToString();
         Move();
         //OnMove += (a, b) => Debug.Log(b);
     }
@@ -57,10 +59,14 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth < 0)
+        healthText.text = currentHealth.ToString();
+        if (currentHealth <= 0)
         {
             currentHealth = 0;
-            //Die
+            GameManager.Instance.DeRegisterEnemy(this);
+            canvasGroup.DOKill();
+            transform.DOKill();
+            Destroy(gameObject);
         }
         damageBar.fillAmount = 1 - (currentHealth / health);
     }

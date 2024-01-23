@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
     {
         _enemies.Add(e);
     }
+    public void DeRegisterEnemy(Enemy e)
+    {
+        if(_enemies.Contains(e))
+            _enemies.Remove(e);
+    }
     public void RegisterTower(Tower t)
     {
         _towers.Add(t);
@@ -24,13 +29,17 @@ public class GameManager : MonoBehaviourSingleton<GameManager>
 
     public void Fire(Vector2 from, WeaponData weaponData)
     {
-        var checkPos = from - weaponData.side.GetDirection();
+        var checkPos = from + weaponData.side.GetDirection();
+
         for (int i = 0; i < weaponData.range; i++)
         {
             var possibleEnemy = _enemies.FirstOrDefault(e => e && e.coordinates == checkPos);
             if (possibleEnemy)
+            {
                 possibleEnemy.TakeDamage(weaponData.damage);
-            checkPos -= weaponData.side.GetDirection();
+                return;
+            }
+            checkPos += weaponData.side.GetDirection();
         }
     }
 

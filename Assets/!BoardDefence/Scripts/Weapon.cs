@@ -36,10 +36,10 @@ public class Weapon : MonoBehaviour
         if (relPos.x != 0 && relPos.y != 0) //Diagonal
             return false;
 
-        if (_shootDir.y == relPos.y)
-            return _shootDir.x >= relPos.x;
-        else if(_shootDir.x == relPos.x)
-            return _shootDir.y >= relPos.y;
+        if (_shootDir.x == relPos.x)
+            return Mathf.Abs(_shootDir.y) >= Mathf.Abs(relPos.y);
+        else if(_shootDir.y == relPos.y)
+            return Mathf.Abs(_shootDir.x) >= Mathf.Abs(relPos.x);
 
         return false;
     }

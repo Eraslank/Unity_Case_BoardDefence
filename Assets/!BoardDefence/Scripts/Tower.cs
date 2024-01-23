@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Tower : MonoBehaviour
@@ -11,6 +12,8 @@ public class Tower : MonoBehaviour
     //4*    -> Sniper
 
     [SerializeField] Weapon[] weapons;
+    [SerializeField] TextMeshProUGUI damageText;
+    [SerializeField] TextMeshProUGUI rangeText;
     public Vector2 coordinates;
 
     public bool freeFire;
@@ -25,7 +28,11 @@ public class Tower : MonoBehaviour
         Enemy.OnMove += TryShoot;
 
         foreach (var w in weapons)
+        {
             w.coordinates = coordinates;
+            damageText.text = w.data.damage.ToString();
+            rangeText.text = w.data.range.ToString();
+        }
     }
     private void OnDisable()
     {
@@ -44,7 +51,7 @@ public class Tower : MonoBehaviour
 
         foreach (var weapon in weapons)
         {
-            weapon.TryFire(coordinates - eCoor);
+            weapon.TryFire(eCoor - coordinates);
         }
     }
 
