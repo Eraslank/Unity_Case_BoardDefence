@@ -12,7 +12,10 @@ public class Enemy : MonoBehaviour
     public float health = 10;
     public float currentHealth = 0;
     public float blocksPerSec = 1f;
+
+    [SerializeField] Image whiteImage;
     [SerializeField] RectTransform rT;
+    [SerializeField] RectTransform paddingRT;
     [SerializeField] TextMeshProUGUI healthText;
     [SerializeField] Image damageBar;
     [SerializeField] CanvasGroup canvasGroup;
@@ -58,15 +61,31 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(float damage)
     {
+        whiteImage.DOKill();
+        whiteImage.WhiteFlash();
+        paddingRT.DOShakeAnchorPos(.25f, 15f, 50).OnComplete(() =>
+        {
+            paddingRT.DOLocalMove(Vector2.zero, .05f).SetEase(Ease.InQuad);
+        });
+
         currentHealth -= damage;
-        healthText.text = currentHealth.ToString();
+        healthText.text = currentHealth < 0 ? "0" : $"{currentHealth}";
+
         if (currentHealth <= 0)
         {
             currentHealth = 0;
             GameManager.Instance.DeRegisterEnemy(this);
-            canvasGroup.DOKill();
+
             transform.DOKill();
-            Destroy(gameObject);
+            StartCoroutine(C_Destroy());
+            IEnumerator C_Destroy()
+            {
+                yield return new WaitForEndOfFrame();
+                canvasGroup.DOFade(0.1f, .25f).SetDelay(.75f).OnComplete(() =>
+                {
+                    Destroy(gameObject);
+                });
+            }
         }
         damageBar.fillAmount = 1 - (currentHealth / health);
     }

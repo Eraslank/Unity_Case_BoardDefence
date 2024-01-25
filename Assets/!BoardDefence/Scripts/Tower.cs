@@ -1,8 +1,10 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tower : MonoBehaviour
 {
@@ -12,14 +14,19 @@ public class Tower : MonoBehaviour
     //4*    -> Sniper
 
     [SerializeField] Weapon[] weapons;
+    [SerializeField] RectTransform rT;
+    [SerializeField] Image whiteImage;
     [SerializeField] TextMeshProUGUI damageText;
     [SerializeField] TextMeshProUGUI rangeText;
     public Vector2 coordinates;
 
     public bool freeFire;
 
+    private Vector2 initialAnchoredPos;
+
     private void Start()
     {
+        initialAnchoredPos = rT.anchoredPosition;
         if(coordinates.x != -1)
             GameManager.Instance.RegisterTower(this);
     }
@@ -29,6 +36,7 @@ public class Tower : MonoBehaviour
 
         foreach (var w in weapons)
         {
+            w.OnFire += OnWeaponFire;
             w.coordinates = coordinates;
             damageText.text = w.data.damage.ToString();
             rangeText.text = w.data.range.ToString();
@@ -37,11 +45,21 @@ public class Tower : MonoBehaviour
     private void OnDisable()
     {
         Enemy.OnMove -= TryShoot;
+        foreach (var w in weapons)
+        {
+            w.OnFire -= OnWeaponFire;
+        }
     }
 
     private void Update()
     {
         SetFreeFire();
+    }
+
+    private void OnWeaponFire(Weapon weapon)
+    {
+        whiteImage.WhiteFlash();
+        rT.DOWeaponPunch(weapon.data.side);
     }
 
     private void TryShoot(Enemy e, Vector2 eCoor)
