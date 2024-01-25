@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.VFX;
 
 public class Tower : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class Tower : MonoBehaviour
     [SerializeField] Image whiteImage;
     [SerializeField] TextMeshProUGUI damageText;
     [SerializeField] TextMeshProUGUI rangeText;
+
+    [SerializeField] Transform[] decors;
+    [SerializeField] RectTransform shineRT;
     public Vector2 coordinates;
 
     public bool freeFire;
@@ -26,10 +30,21 @@ public class Tower : MonoBehaviour
 
     private void Start()
     {
+        Spawn();
         initialAnchoredPos = rT.anchoredPosition;
-        if(coordinates.x != -1)
+        if (coordinates.x != -1)
             GameManager.Instance.RegisterTower(this);
     }
+
+    private void Spawn()
+    {
+        for (int i = 0; i < decors.Length; i++)
+        {
+            decors[i].DORotate(Vector3.zero, .5f).From(Vector3.forward * (i == 0 ? 180 : -180)).SetEase(Ease.InBack);
+        }
+        shineRT.DOAnchorPos(Vector3.up * 200f, 1f).SetDelay(.6f).SetRelative().SetEase(Ease.Linear);
+    }
+
     private void OnEnable()
     {
         Enemy.OnMove += TryShoot;
@@ -75,9 +90,9 @@ public class Tower : MonoBehaviour
 
     public void SetFreeFire()
     {
-        foreach(var w in weapons)
+        foreach (var w in weapons)
         {
-            if(w.freeFire = freeFire)
+            if (w.freeFire = freeFire)
                 w.Fire();
         }
     }

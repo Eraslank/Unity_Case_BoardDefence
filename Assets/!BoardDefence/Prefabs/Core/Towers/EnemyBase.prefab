@@ -402,6 +402,7 @@ MonoBehaviour:
   currentHealth: 0
   blocksPerSec: 1
   whiteImage: {fileID: 2330407273377623461}
+  decorRT: {fileID: 4125861494915643574}
   rT: {fileID: 7881082550711088747}
   paddingRT: {fileID: 4125861494915643574}
   healthText: {fileID: 2267555742862071010}

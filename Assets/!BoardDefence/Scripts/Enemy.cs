@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public float blocksPerSec = 1f;
 
     [SerializeField] Image whiteImage;
+    [SerializeField] RectTransform decorRT;
     [SerializeField] RectTransform rT;
     [SerializeField] RectTransform paddingRT;
     [SerializeField] TextMeshProUGUI healthText;
@@ -27,7 +28,7 @@ public class Enemy : MonoBehaviour
     {
         GameManager.Instance.RegisterEnemy(this);
         healthText.text = (currentHealth = health).ToString();
-        Move();
+        Spawn();
         //OnMove += (a, b) => Debug.Log(b);
     }
 
@@ -88,5 +89,14 @@ public class Enemy : MonoBehaviour
             }
         }
         damageBar.fillAmount = 1 - (currentHealth / health);
+    }
+
+    public void Spawn()
+    {
+        var unitSpeed = 1 / blocksPerSec;
+        rT.transform.DOScale(1, unitSpeed/2).From(0);
+        canvasGroup.DOFade(1, unitSpeed).From(0).OnComplete(Move);
+        decorRT.DOScale(1f, unitSpeed).From(4f);
+        decorRT.DORotate(Vector3.back * 360 * 3, unitSpeed, RotateMode.FastBeyond360).SetEase(Ease.OutBack,.75f);
     }
 }

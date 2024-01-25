@@ -88,7 +88,7 @@ public static class RectTransformExtensions
 
         var rot = Vector3.forward * (sign ? -7.5f : 7.5f);
 
-        rT.DOAnchorPos(mov, .1f).SetRelative().SetEase(Ease.OutCirc);
+        rT.DOAnchorPos(mov, .02f).SetRelative().SetEase(Ease.OutCirc);
         rT.DORotate(rot, .1f).SetEase(Ease.OutCirc);
         rT.DOScale(.9f, .1f);
 
