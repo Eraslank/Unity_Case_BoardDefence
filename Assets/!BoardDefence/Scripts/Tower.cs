@@ -42,7 +42,8 @@ public class Tower : MonoBehaviour
         {
             decors[i].DORotate(Vector3.zero, .5f).From(Vector3.forward * (i == 0 ? 180 : -180)).SetEase(Ease.InBack);
         }
-        shineRT.DOAnchorPos(Vector3.up * 200f, 1f).SetDelay(.6f).SetRelative().SetEase(Ease.Linear);
+        rT.DOBounce(.2f).SetDelay(.5f);
+        shineRT.DOAnchorPos(Vector3.up * 200f, 1f).SetDelay(1f).SetRelative().SetEase(Ease.Linear);
     }
 
     private void OnEnable()
@@ -74,7 +75,11 @@ public class Tower : MonoBehaviour
     private void OnWeaponFire(Weapon weapon)
     {
         whiteImage.WhiteFlash();
-        rT.DOWeaponPunch(weapon.data.side);
+
+        rT.DOKill();
+        rT.anchoredPosition = initialAnchoredPos;
+
+        rT.DOWeaponPunch(weapon.data.side, initialAnchoredPos);
     }
 
     private void TryShoot(Enemy e, Vector2 eCoor)

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31fcbd5eda646914f85b5326c1bd39d9, type: 3}
+  m_Name: Level3
+  m_EditorClassIdentifier: 
+  row: 8
+  column: 4
+  spawnInterval: 1
+  shuffleEnemyList: 1
+  enemySpawnList:
+  - enemy: {fileID: 305954118620836429, guid: 052e76f9b37f0fe46ab81c4e96ac96b0, type: 3}
+    count: 7
+    column: -1
+  - enemy: {fileID: 305954118620836429, guid: b75cc3c3ac3620a4ab146d7cf505f10f, type: 3}
+    count: 3
+    column: -1
+  - enemy: {fileID: 305954118620836429, guid: 910d27a3548272946884dfe390f1fd52, type: 3}
+    count: 5
+    column: -1
+  towerList:
+  - tower: {fileID: 963097055217145418, guid: 78535e083f9df0a43ba5b04d49dbdd5c, type: 3}
+    count: 5
+  - tower: {fileID: 963097055217145418, guid: b7747c3796a32ee4ebeec3469b546eb5, type: 3}
+    count: 7
+  - tower: {fileID: 963097055217145418, guid: 987f16e68f9d3184e94ad4accb7fd571, type: 3}
+    count: 5

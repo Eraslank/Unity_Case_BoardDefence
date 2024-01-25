@@ -74,7 +74,7 @@ public static class ImageExtensions
 
 public static class RectTransformExtensions
 {
-    public static void DOWeaponPunch(this RectTransform rT, ESide side, float duration = .25f)
+    public static void DOWeaponPunch(this RectTransform rT, ESide side, Vector3? initialPos = null)
     {
 
         bool sign = Random.value > 0.5f;
@@ -94,14 +94,22 @@ public static class RectTransformExtensions
 
         DOVirtual.DelayedCall(.25f, () =>
         {
-            rT.DOAnchorPos(-mov, .1f).SetRelative().SetEase(Ease.OutCirc);
+            if (initialPos.HasValue)
+                rT.DOAnchorPos(initialPos.Value, .1f).SetEase(Ease.OutCirc);
+            else
+                rT.DOAnchorPos(-mov, .1f).SetRelative().SetEase(Ease.OutCirc);
+
             rT.DORotate(Vector3.zero, .1f).SetEase(Ease.OutCirc);
-            rT.DOScale(1.15f, .1f).OnComplete(() =>
+            rT.DOBounce();
+        });
+    }
+    public static Tween DOBounce(this RectTransform rT, float duration = .1f)
+    {
+        return rT.DOScale(1.15f, duration).OnComplete(() =>
+        {
+            rT.DOScale(.9f, duration * .5f).OnComplete(() =>
             {
-                rT.DOScale(.9f, .05f).OnComplete(() =>
-                {
-                    rT.DOScale(1, .1f);
-                });
+                rT.DOScale(1, duration);
             });
         });
     }

@@ -5,13 +5,15 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviourSingleton<GameManager>
 {
-    public List<Enemy> _enemies = new List<Enemy>();
-    public List<Tower> _towers = new List<Tower>();
+    private List<Enemy> _enemies = new List<Enemy>();
+    private List<Tower> _towers = new List<Tower>();
 
     private void Awake()
     {
         _enemies.Clear();
         _towers.Clear();
+
+        LevelManager.Instance.AutoGenerateLevel();
     }
     public void RegisterEnemy(Enemy e)
     {
