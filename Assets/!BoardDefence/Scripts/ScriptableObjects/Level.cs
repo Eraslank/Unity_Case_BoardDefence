@@ -6,8 +6,8 @@ using UnityEngine;
 public class Level : ScriptableObject
 {
     [Header("BOARD")]
-    public int rows;
-    public int columns;
+    [Range(4, 8)] public int rows;
+    [Range(1, 5)] public int columns;
 
     [Space(20)]
     [Header("DATA")]
@@ -19,9 +19,9 @@ public class Level : ScriptableObject
 }
 
 [System.Serializable]
-public struct EnemyLevelData
+public class EnemyLevelData
 {
-    public Enemy enemy;
+    public EEnemyType enemyType;
     public int count;
 
     [Tooltip("-1 means randomized")]
@@ -30,9 +30,9 @@ public struct EnemyLevelData
 }
 
 [System.Serializable]
-public struct TowerLevelData
+public class TowerLevelData
 {
-    public Tower tower;
+    public ETowerType towerType;
 
     public int count;
 }

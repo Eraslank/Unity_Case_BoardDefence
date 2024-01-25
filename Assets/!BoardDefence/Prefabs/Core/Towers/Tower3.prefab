@@ -1025,11 +1025,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5242773422065382743, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -87.50001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5242773422065382743, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -87.49999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5242773422065382743, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1048,12 +1048,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5842340984437238672, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
-      propertyPath: coordinates.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5842340984437238672, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
-      propertyPath: coordinates.y
-      value: 4
+      propertyPath: towerType
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5842340984437238672, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
       propertyPath: weapons.Array.size

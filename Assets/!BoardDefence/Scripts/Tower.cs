@@ -4,15 +4,18 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.VFX;
 
-public class Tower : MonoBehaviour
+public class Tower : MonoBehaviour, IPointerDownHandler
 {
-    //1     -> Rifle
-    //2     -> Revolver
-    //3     -> Shotgun
-    //4*    -> Sniper
+    public ETowerType towerType;
+    public Vector2 coordinates;
+    public bool freeFire;
+
+    public bool placed;
 
     [SerializeField] Weapon[] weapons;
     [SerializeField] RectTransform rT;
@@ -22,31 +25,55 @@ public class Tower : MonoBehaviour
 
     [SerializeField] Transform[] decors;
     [SerializeField] RectTransform shineRT;
-    public Vector2 coordinates;
 
-    public bool freeFire;
 
     private Vector2 initialAnchoredPos;
 
+    public static UnityAction<Tower> OnClick;
     private void Start()
     {
-        Spawn();
+        SpawnAnim();
         initialAnchoredPos = rT.anchoredPosition;
-        if (coordinates.x != -1)
-            GameManager.Instance.RegisterTower(this);
     }
 
-    private void Spawn()
+    private void SpawnAnim()
     {
         for (int i = 0; i < decors.Length; i++)
         {
             decors[i].DORotate(Vector3.zero, .5f).From(Vector3.forward * (i == 0 ? 180 : -180)).SetEase(Ease.InBack);
         }
         rT.DOBounce(.2f).SetDelay(.5f);
-        shineRT.DOAnchorPos(Vector3.up * 200f, 1f).SetDelay(1f).SetRelative().SetEase(Ease.Linear);
+        shineRT.DOAnchorPos(Vector3.up * 200f, 1f).From(Vector2.up * -50).SetDelay(1f).SetRelative().SetEase(Ease.Linear);
+    }
+
+    public void Spawn(Vector2 coordinates, bool playSpawnAnim = true)
+    {
+        this.coordinates = coordinates;
+        placed = true;
+        Config();
+        if (playSpawnAnim)
+            SpawnAnim();
     }
 
     private void OnEnable()
+    {
+        if (!placed)
+            return;
+
+        Config();
+    }
+    private void OnDisable()
+    {
+        if (!placed)
+            return;
+
+        Enemy.OnMove -= TryShoot;
+        foreach (var w in weapons)
+        {
+            w.OnFire -= OnWeaponFire;
+        }
+    }
+    private void Config()
     {
         Enemy.OnMove += TryShoot;
 
@@ -58,15 +85,6 @@ public class Tower : MonoBehaviour
             rangeText.text = w.data.range.ToString();
         }
     }
-    private void OnDisable()
-    {
-        Enemy.OnMove -= TryShoot;
-        foreach (var w in weapons)
-        {
-            w.OnFire -= OnWeaponFire;
-        }
-    }
-
     private void Update()
     {
         SetFreeFire();
@@ -102,4 +120,8 @@ public class Tower : MonoBehaviour
         }
     }
 
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        OnClick?.Invoke(this);
+    }
 }

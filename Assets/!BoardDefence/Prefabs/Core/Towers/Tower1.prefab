@@ -226,6 +226,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5842340984437238672, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
+      propertyPath: towerType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5842340984437238672, guid: 9df69cfc2260ab5438129edd823d9fc1, type: 3}
       propertyPath: weapons.Array.size
       value: 1
       objectReference: {fileID: 0}

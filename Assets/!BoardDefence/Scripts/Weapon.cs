@@ -48,9 +48,13 @@ public class Weapon : MonoBehaviour
     {
         if (!_readyToShoot)
             return;
+
+        if (!GameManager.Instance.Fire(coordinates, data))
+            return;
+
         _readyToShoot = false;
 
-        GameManager.Instance.Fire(coordinates, data);
+
         Invoke(nameof(Reload), data.reloadDuration);
 
         cooldownImage.DOFillAmount(0,data.reloadDuration)

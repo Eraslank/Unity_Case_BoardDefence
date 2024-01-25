@@ -394,6 +394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc88505270f101a43980886f48acd131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  towerType: -1
+  coordinates: {x: -1, y: -1}
+  freeFire: 0
+  placed: 0
   weapons: []
   rT: {fileID: 5242773422065382743}
   whiteImage: {fileID: 7932748710524145962}
@@ -403,8 +407,6 @@ MonoBehaviour:
   - {fileID: 5617264512752207875}
   - {fileID: 1716896334866577417}
   shineRT: {fileID: 974597000717947689}
-  coordinates: {x: 0, y: 7}
-  freeFire: 0
 --- !u!114 &5967382080164446466
 MonoBehaviour:
   m_ObjectHideFlags: 0

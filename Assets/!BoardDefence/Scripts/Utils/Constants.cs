@@ -9,6 +9,7 @@ public struct GameColors
 {
     public static Color Enemy { get { return new Color(.22f, .22f, .22f); } }
     public static Color Tower { get { return new Color(0, .6f, 1f); } }
+    public static Color DecorHighlight { get { return new Color(.1f, 1f, 0); } }
 }
 
 
@@ -29,6 +30,22 @@ public enum ESide : int
     Right,
     Down,
     Left,
+}
+public enum EEnemyType : int
+{
+    NONE = -1,
+
+    One,
+    Two,
+    Three,
+}
+public enum ETowerType : int
+{
+    NONE = -1,
+
+    One,
+    Two,
+    Three,
 }
 
 public static class ESideExtensions

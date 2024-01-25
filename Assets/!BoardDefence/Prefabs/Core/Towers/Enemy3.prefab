@@ -121,6 +121,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9012232754636205605, guid: eb92b72c3100b714090bb3a2cef69909, type: 3}
+      propertyPath: enemyType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9012232754636205605, guid: eb92b72c3100b714090bb3a2cef69909, type: 3}
       propertyPath: blocksPerSec
       value: 0.5
       objectReference: {fileID: 0}

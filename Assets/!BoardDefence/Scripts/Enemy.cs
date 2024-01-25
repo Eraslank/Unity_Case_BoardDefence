@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    public EEnemyType enemyType;
     public Vector2 coordinates;
     public float health = 10;
     public float currentHealth = 0;
@@ -22,14 +23,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] CanvasGroup canvasGroup;
 
     public static UnityAction<Enemy, Vector2> OnMove;
+    public static UnityAction<Enemy> OnDie;
+    public static UnityAction<Enemy> OnMoveComplete;
 
     bool _faded = false;
     private void Start()
     {
-        GameManager.Instance.RegisterEnemy(this);
         healthText.text = (currentHealth = health).ToString();
-        Spawn();
-        //OnMove += (a, b) => Debug.Log(b);
     }
 
     public void Move()
@@ -57,6 +57,10 @@ public class Enemy : MonoBehaviour
                   _faded = false;
               }
 
+          })
+          .OnComplete(() => 
+          {
+              OnMoveComplete?.Invoke(this);
           });
     }
 
@@ -75,8 +79,7 @@ public class Enemy : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            GameManager.Instance.DeRegisterEnemy(this);
-
+            OnDie?.Invoke(this);
             transform.DOKill();
             StartCoroutine(C_Destroy());
             IEnumerator C_Destroy()
@@ -91,8 +94,9 @@ public class Enemy : MonoBehaviour
         damageBar.fillAmount = 1 - (currentHealth / health);
     }
 
-    public void Spawn()
+    public void Spawn(Vector2 coordinates)
     {
+        this.coordinates = coordinates;
         var unitSpeed = 1 / blocksPerSec;
         rT.transform.DOScale(1, unitSpeed/2).From(0);
         canvasGroup.DOFade(1, unitSpeed).From(0).OnComplete(Move);
